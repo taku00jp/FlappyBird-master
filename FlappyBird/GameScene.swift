@@ -89,7 +89,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
             
         } else if (contact.bodyA.categoryBitMask & itemCategory) == itemCategory || (contact.bodyB.categoryBitMask & itemCategory) == itemCategory {
             itemScore++
-            itemScoreLabelNode.text = "ItemScore:\(itemScore)"
+            itemScoreLabelNode.text = "CoinScore:\(itemScore)"
 
             
                 // 再生データの作成
@@ -118,7 +118,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         }
        
     }
-    
     
     
     
@@ -354,12 +353,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
 
         
         //item関連のノードを載せるノードを作成
-        item.position = CGPoint(x: self.frame.size.width + itemTexture.size().width * 2, y: 0.0)
+        item.position = CGPoint(x: self.frame.size.width + itemTexture.size().width * 5, y: 0.0)
         item.zPosition = -50.0//雲より手前、地面より奥
         
         let ram = arc4random_uniform( max - min) + min//範囲指定
-        let itemA = SKSpriteNode(texture: itemTexture)//ここで生成
-        itemA.position = CGPoint(x: self.frame.width / 3, y: CGFloat(ram))
+        let itemA = SKSpriteNode(texture: itemTexture)
+        itemA.size = CGSize(width: 30, height: 30)
+        item.position = CGPoint(x: self.frame.width / 3, y: CGFloat(ram))
         
         // スプライトに物理演算を設定する
         itemA.physicsBody = SKPhysicsBody(rectangleOfSize: itemTexture.size())
@@ -367,14 +367,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         itemA.physicsBody?.contactTestBitMask = self.birdCategory
         itemA.physicsBody?.dynamic = false
         print("position\(item.position.y)")
+        item.addChild(itemA)
         itemA.runAction(itemAnimation)
+        
         
         self.itemNode.addChild(item)
         
-
         
-        
-    //let yourSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Points.wav", ofType: nil)!)
+        //let yourSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("Points.wav", ofType: nil)!)
 
    
         //audioPlayer = try! AVAudioPlayer(contentsOfURL:yourSound)
@@ -382,9 +382,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         //audioPlayer.prepareToPlay()
         
         //audioPlayer.play()
-        
-       
-        
         
 
     }
@@ -396,9 +393,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         }
         
         
-        if (currentTime - time) > 4.0 {
-            let random = arc4random_uniform(100)
-            if random < 30 {
+        if (currentTime - time) > 5.0 {
+            let random = arc4random_uniform(50)
+            if random < 10 {
             }else {
                 setupItem()
                 
@@ -450,15 +447,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         itemScoreLabelNode.position = CGPoint(x: 10, y: self.frame.size.height - 90)
         itemScoreLabelNode.zPosition = 100
         itemScoreLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        itemScoreLabelNode.text = "ItemScore:\(itemScore)"
+        itemScoreLabelNode.text = "CoinScore:\(itemScore)"
         self.addChild(itemScoreLabelNode)
 
 
         
     }
-    
-    
-    
     
     
 }
